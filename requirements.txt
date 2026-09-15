@@ -1,0 +1,16 @@
+numpy>=1.26,<2.0
+pandas>=2.0
+matplotlib>=3.7
+seaborn>=0.12
+pytest>=7.4
+
+# --- Added for Streamlit Community Cloud + FastAPI deployment ---
+# Streamlit Cloud only auto-detects a root-level requirements.txt (not
+# requirements_dashboard.txt), so dashboard deps are merged in here too.
+# CI/local dev is unaffected -- these are just extra installed packages.
+fastapi>=0.110
+uvicorn[standard]>=0.27
+pydantic>=2.5
+streamlit>=1.32
+requests>=2.31
+pillow>=10.2

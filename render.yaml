@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: mnist-ann-scratch-api
+    env: python
+    plan: free
+    buildCommand: pip install -r requirements_api.txt
+    startCommand: python scripts/run_api.py
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.3
+
+  - type: web
+    name: mnist-ann-scratch-dashboard
+    env: python
+    plan: free
+    buildCommand: pip install -r requirements_dashboard.txt
+    startCommand: streamlit run monitoring/monitoring_dashboard.py --server.port=$PORT --server.address=0.0.0.0
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.3
+      - key: MNIST_API_URL
+        value: https://mnist-ann-scratch-api.onrender.com

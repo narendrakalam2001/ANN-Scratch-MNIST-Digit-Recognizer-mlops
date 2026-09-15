@@ -1,0 +1,83 @@
+[
+  {
+    "decision": "PROMOTED",
+    "reason": "No existing champion -- first model auto-promoted",
+    "evaluated_at": "2026-08-09 09:00:01",
+    "challenger_name": "ANN_Scratch_v1",
+    "challenger_accuracy": 1.0,
+    "challenger_macro_f1": 1.0,
+    "champion_name": null,
+    "champion_accuracy": null
+  },
+  {
+    "decision": "REJECTED",
+    "reason": "Gates failed: accuracy improvement +0.0000 < 0.002",
+    "evaluated_at": "2026-08-19 23:21:42",
+    "challenger_name": "ANN_Scratch_v1",
+    "challenger_accuracy": 0.9679,
+    "challenger_macro_f1": 0.9675,
+    "challenger_gap": 0.0171,
+    "champion_name": "ANN_Scratch_v1",
+    "champion_accuracy": 0.9679,
+    "champion_macro_f1": 0.9675,
+    "gates": {
+      "accuracy_improvement_passed": false,
+      "macro_f1_passed": true,
+      "gap_passed": true
+    }
+  },
+  {
+    "decision": "REJECTED",
+    "reason": "Gates failed: accuracy improvement +0.0000 < 0.002",
+    "evaluated_at": "2026-08-20 15:19:39",
+    "challenger_name": "ANN_Scratch_v1",
+    "challenger_accuracy": 0.9679,
+    "challenger_macro_f1": 0.9675,
+    "challenger_gap": 0.0171,
+    "champion_name": "ANN_Scratch_v1",
+    "champion_accuracy": 0.9679,
+    "champion_macro_f1": 0.9675,
+    "gates": {
+      "accuracy_improvement_passed": false,
+      "macro_f1_passed": true,
+      "gap_passed": true
+    }
+  },
+  {
+    "decision": "PROMOTED",
+    "reason": "No existing champion -- first model auto-promoted",
+    "evaluated_at": "2026-08-20 16:13:42",
+    "challenger_name": "ANN_Scratch_v1",
+    "challenger_accuracy": 0.9679,
+    "challenger_macro_f1": 0.9675,
+    "champion_name": null,
+    "champion_accuracy": null
+  },
+  {
+    "decision": "PROMOTED",
+    "reason": "No existing champion -- first model auto-promoted",
+    "evaluated_at": "2026-08-20 23:19:06",
+    "challenger_name": "ANN_Scratch_v1",
+    "challenger_accuracy": 0.974,
+    "challenger_macro_f1": 0.9739,
+    "champion_name": null,
+    "champion_accuracy": null
+  },
+  {
+    "decision": "REJECTED",
+    "reason": "Gates failed: accuracy improvement +0.0000 < 0.002",
+    "evaluated_at": "2026-08-20 23:46:32",
+    "challenger_name": "ANN_Scratch_v2",
+    "challenger_accuracy": 0.974,
+    "challenger_macro_f1": 0.9739,
+    "challenger_gap": 0.0196,
+    "champion_name": "ANN_Scratch_v1",
+    "champion_accuracy": 0.974,
+    "champion_macro_f1": 0.9739,
+    "gates": {
+      "accuracy_improvement_passed": false,
+      "macro_f1_passed": true,
+      "gap_passed": true
+    }
+  }
+]

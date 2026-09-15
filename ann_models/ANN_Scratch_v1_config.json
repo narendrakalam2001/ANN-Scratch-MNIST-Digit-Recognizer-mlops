@@ -1,0 +1,19 @@
+{
+  "layer_dims": [
+    784,
+    256,
+    128,
+    10
+  ],
+  "activation": "relu",
+  "weight_init": "he",
+  "optimizer": "adam",
+  "learning_rate": 0.005116560972597762,
+  "l2_lambda": 0.0001,
+  "dropout_keep_prob": 0.8,
+  "beta1": 0.9,
+  "beta2": 0.999,
+  "epsilon": 1e-08,
+  "grad_clip_norm": 5.0,
+  "random_state": 42
+}

@@ -1,0 +1,28 @@
+version: "3.9"
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - PORT=8000
+    volumes:
+      - ./ann_models:/app/ann_models
+      - ./logs:/app/logs
+
+  dashboard:
+    build:
+      context: .
+      dockerfile: Dockerfile.dashboard
+    ports:
+      - "8501:8501"
+    environment:
+      - MNIST_API_URL=http://api:8000
+    depends_on:
+      - api
+    volumes:
+      - ./ann_models:/app/ann_models
+      - ./logs:/app/logs

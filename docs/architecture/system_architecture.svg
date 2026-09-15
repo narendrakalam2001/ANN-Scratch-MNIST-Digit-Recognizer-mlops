@@ -1,0 +1,346 @@
+<svg width="1100" viewBox="0 0 1100 940" xmlns="http://www.w3.org/2000/svg" font-family="'Segoe UI', Arial, sans-serif">
+
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+      <path d="M2 2L8 5L2 8" fill="none" stroke="#4a7fd4" stroke-width="1.5"/>
+    </marker>
+    <marker id="arr2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+      <path d="M2 2L8 5L2 8" fill="none" stroke="#8b5cf6" stroke-width="1.5"/>
+    </marker>
+    <marker id="arr3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+      <path d="M2 2L8 5L2 8" fill="none" stroke="#f59e0b" stroke-width="1.5"/>
+    </marker>
+    <marker id="arr4" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+      <path d="M2 2L8 5L2 8" fill="none" stroke="#6b7280" stroke-width="1.5"/>
+    </marker>
+  </defs>
+
+  <!-- TITLE -->
+  <text x="550" y="28" text-anchor="middle" font-size="16" font-weight="600" fill="#1a1a2e">ANN From Scratch — MNIST Digit Recognizer — System Architecture</text>
+
+  <!-- ═══════════════════════════════════════════════════════
+       LAYER 1 — DATA LAYER  (blue)
+  ════════════════════════════════════════════════════════ -->
+  <rect x="10" y="42" width="1080" height="108" rx="8" fill="#0d1b4b" opacity="0.93"/>
+  <text x="18" y="58" font-size="10" font-weight="700" fill="#7eb3f7" letter-spacing="1.5">DATA LAYER</text>
+  <text x="16" y="100" font-size="9" font-weight="600" fill="#4a90d9" transform="rotate(-90,16,100)" text-anchor="middle">DATA</text>
+
+  <!-- Kaggle CSV -->
+  <rect x="30" y="64" width="175" height="74" rx="6" fill="#1a3a7a" stroke="#4a7fd4" stroke-width="0.8"/>
+  <text x="117" y="88" text-anchor="middle" font-size="12" font-weight="600" fill="#e8f0fe">Kaggle Digit CSV</text>
+  <text x="117" y="104" text-anchor="middle" font-size="10" fill="#93b8f7">train.csv / test.csv</text>
+  <text x="117" y="118" text-anchor="middle" font-size="10" fill="#93b8f7">42,000 rows · 784 pixels</text>
+
+  <line x1="205" y1="101" x2="223" y2="101" stroke="#4a7fd4" stroke-width="1.2" marker-end="url(#arr)"/>
+
+  <!-- Validate + Load -->
+  <rect x="225" y="64" width="175" height="74" rx="6" fill="#1a3a7a" stroke="#4a7fd4" stroke-width="0.8"/>
+  <text x="312" y="88" text-anchor="middle" font-size="12" font-weight="600" fill="#e8f0fe">Validate + Load</text>
+  <text x="312" y="104" text-anchor="middle" font-size="10" fill="#93b8f7">data_loader.py</text>
+  <text x="312" y="118" text-anchor="middle" font-size="10" fill="#93b8f7">schema · pixel range 0-255</text>
+
+  <line x1="400" y1="101" x2="418" y2="101" stroke="#4a7fd4" stroke-width="1.2" marker-end="url(#arr)"/>
+
+  <!-- Leakage Check -->
+  <rect x="420" y="64" width="175" height="74" rx="6" fill="#1a3a7a" stroke="#4a7fd4" stroke-width="0.8"/>
+  <text x="507" y="88" text-anchor="middle" font-size="12" font-weight="600" fill="#e8f0fe">Leakage Check</text>
+  <text x="507" y="104" text-anchor="middle" font-size="10" fill="#93b8f7">image-hash dedup</text>
+  <text x="507" y="118" text-anchor="middle" font-size="10" fill="#93b8f7">no overlap train/val/test</text>
+
+  <line x1="595" y1="101" x2="613" y2="101" stroke="#4a7fd4" stroke-width="1.2" marker-end="url(#arr)"/>
+
+  <!-- Stratified Split -->
+  <rect x="615" y="64" width="175" height="74" rx="6" fill="#1a3a7a" stroke="#4a7fd4" stroke-width="0.8"/>
+  <text x="702" y="88" text-anchor="middle" font-size="12" font-weight="600" fill="#e8f0fe">Stratified Split</text>
+  <text x="702" y="104" text-anchor="middle" font-size="10" fill="#93b8f7">hand-rolled, no sklearn</text>
+  <text x="702" y="118" text-anchor="middle" font-size="10" fill="#93b8f7">80% train · 10% val · 10% test</text>
+
+  <line x1="790" y1="101" x2="808" y2="101" stroke="#4a7fd4" stroke-width="1.2" marker-end="url(#arr)"/>
+
+  <!-- Preprocess -->
+  <rect x="810" y="64" width="265" height="74" rx="6" fill="#1a3a7a" stroke="#4a7fd4" stroke-width="0.8"/>
+  <text x="942" y="88" text-anchor="middle" font-size="12" font-weight="600" fill="#e8f0fe">Preprocess</text>
+  <text x="942" y="104" text-anchor="middle" font-size="10" fill="#93b8f7">PixelScaler [0,1] + one-hot encode</text>
+  <text x="942" y="118" text-anchor="middle" font-size="10" fill="#93b8f7">fit on train only — no leakage</text>
+
+  <!-- layer connector -->
+  <line x1="550" y1="150" x2="550" y2="166" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arr4)"/>
+
+  <!-- ═══════════════════════════════════════════════════════
+       LAYER 2 — TRAINING PIPELINE  (purple)
+  ════════════════════════════════════════════════════════ -->
+  <rect x="10" y="168" width="1080" height="196" rx="8" fill="#1e0a3c" opacity="0.95"/>
+  <text x="18" y="184" font-size="10" font-weight="700" fill="#c49ef7" letter-spacing="1.5">TRAINING PIPELINE — NUMPY, NO FRAMEWORKS</text>
+  <text x="16" y="270" font-size="9" font-weight="600" fill="#9b6de0" transform="rotate(-90,16,270)" text-anchor="middle">TRAINING</text>
+
+  <!-- Row 1 -->
+  <!-- Hyperparameter Search -->
+  <rect x="28" y="190" width="158" height="68" rx="6" fill="#2d1060" stroke="#8b5cf6" stroke-width="0.8"/>
+  <text x="107" y="211" text-anchor="middle" font-size="11" font-weight="600" fill="#e9d5ff">Hyperparam Search</text>
+  <text x="107" y="226" text-anchor="middle" font-size="10" fill="#c4b5fd">random_search() 6 trials</text>
+  <text x="107" y="240" text-anchor="middle" font-size="9" fill="#a78bfa">hidden layers × LR</text>
+
+  <line x1="186" y1="224" x2="198" y2="224" stroke="#8b5cf6" stroke-width="1.2" marker-end="url(#arr2)"/>
+
+  <!-- Forward Propagation -->
+  <rect x="200" y="190" width="158" height="68" rx="6" fill="#2d1060" stroke="#8b5cf6" stroke-width="0.8"/>
+  <text x="279" y="211" text-anchor="middle" font-size="11" font-weight="600" fill="#e9d5ff">Forward Prop</text>
+  <text x="279" y="226" text-anchor="middle" font-size="10" fill="#c4b5fd">Linear→ReLU→Softmax</text>
+  <text x="279" y="240" text-anchor="middle" font-size="9" fill="#a78bfa">numerically stable softmax</text>
+
+  <line x1="358" y1="224" x2="370" y2="224" stroke="#8b5cf6" stroke-width="1.2" marker-end="url(#arr2)"/>
+
+  <!-- Manual Backprop -->
+  <rect x="372" y="190" width="158" height="68" rx="6" fill="#2d1060" stroke="#8b5cf6" stroke-width="0.8"/>
+  <text x="451" y="211" text-anchor="middle" font-size="11" font-weight="600" fill="#e9d5ff">Manual Backprop</text>
+  <text x="451" y="226" text-anchor="middle" font-size="10" fill="#c4b5fd">chain-rule gradients</text>
+  <text x="451" y="240" text-anchor="middle" font-size="9" fill="#a78bfa">no autograd, layer by layer</text>
+
+  <line x1="530" y1="224" x2="542" y2="224" stroke="#8b5cf6" stroke-width="1.2" marker-end="url(#arr2)"/>
+
+  <!-- Optimizer -->
+  <rect x="544" y="190" width="158" height="68" rx="6" fill="#2d1060" stroke="#8b5cf6" stroke-width="0.8"/>
+  <text x="623" y="211" text-anchor="middle" font-size="11" font-weight="600" fill="#e9d5ff">Optimizer</text>
+  <text x="623" y="226" text-anchor="middle" font-size="10" fill="#c4b5fd">SGD · Momentum · Adam</text>
+  <text x="623" y="240" text-anchor="middle" font-size="9" fill="#a78bfa">hand-coded update rules</text>
+
+  <line x1="702" y1="224" x2="714" y2="224" stroke="#8b5cf6" stroke-width="1.2" marker-end="url(#arr2)"/>
+
+  <!-- Regularization -->
+  <rect x="716" y="190" width="158" height="68" rx="6" fill="#2d1060" stroke="#8b5cf6" stroke-width="0.8"/>
+  <text x="795" y="211" text-anchor="middle" font-size="11" font-weight="600" fill="#e9d5ff">Regularization</text>
+  <text x="795" y="226" text-anchor="middle" font-size="10" fill="#c4b5fd">L2 weight decay</text>
+  <text x="795" y="240" text-anchor="middle" font-size="10" fill="#c4b5fd">inverted dropout</text>
+
+  <!-- Row 2 -->
+  <!-- Gradient Clipping -->
+  <rect x="28" y="278" width="158" height="68" rx="6" fill="#2d1060" stroke="#8b5cf6" stroke-width="0.8"/>
+  <text x="107" y="299" text-anchor="middle" font-size="11" font-weight="600" fill="#e9d5ff">Gradient Clipping</text>
+  <text x="107" y="314" text-anchor="middle" font-size="10" fill="#c4b5fd">global-norm clip</text>
+  <text x="107" y="328" text-anchor="middle" font-size="9" fill="#a78bfa">grad_clip_norm = 5.0</text>
+
+  <line x1="186" y1="312" x2="198" y2="312" stroke="#8b5cf6" stroke-width="1.2" marker-end="url(#arr2)"/>
+
+  <!-- LR Decay + Early Stop -->
+  <rect x="200" y="278" width="158" height="68" rx="6" fill="#2d1060" stroke="#8b5cf6" stroke-width="0.8"/>
+  <text x="279" y="299" text-anchor="middle" font-size="11" font-weight="600" fill="#e9d5ff">LR Decay + Early Stop</text>
+  <text x="279" y="314" text-anchor="middle" font-size="10" fill="#c4b5fd">decay 0.97 / epoch</text>
+  <text x="279" y="328" text-anchor="middle" font-size="9" fill="#a78bfa">patience=5 on val_loss</text>
+
+  <line x1="358" y1="312" x2="370" y2="312" stroke="#8b5cf6" stroke-width="1.2" marker-end="url(#arr2)"/>
+
+  <!-- Evaluation -->
+  <rect x="372" y="278" width="158" height="68" rx="6" fill="#2d1060" stroke="#8b5cf6" stroke-width="0.8"/>
+  <text x="451" y="299" text-anchor="middle" font-size="11" font-weight="600" fill="#e9d5ff">Evaluation</text>
+  <text x="451" y="314" text-anchor="middle" font-size="10" fill="#c4b5fd">accuracy · macro-F1 · top-2</text>
+  <text x="451" y="328" text-anchor="middle" font-size="9" fill="#a78bfa">confusion matrix + plots</text>
+
+  <line x1="530" y1="312" x2="542" y2="312" stroke="#8b5cf6" stroke-width="1.2" marker-end="url(#arr2)"/>
+
+  <!-- Model Card -->
+  <rect x="544" y="278" width="158" height="68" rx="6" fill="#2d1060" stroke="#8b5cf6" stroke-width="0.8"/>
+  <text x="623" y="299" text-anchor="middle" font-size="11" font-weight="600" fill="#e9d5ff">Model Card</text>
+  <text x="623" y="314" text-anchor="middle" font-size="10" fill="#c4b5fd">Google Model Cards JSON</text>
+  <text x="623" y="328" text-anchor="middle" font-size="9" fill="#a78bfa">limitations + intended use</text>
+
+  <line x1="702" y1="312" x2="714" y2="312" stroke="#8b5cf6" stroke-width="1.2" marker-end="url(#arr2)"/>
+
+  <!-- Per-epoch Logging -->
+  <rect x="716" y="278" width="158" height="68" rx="6" fill="#2d1060" stroke="#8b5cf6" stroke-width="0.8"/>
+  <text x="795" y="299" text-anchor="middle" font-size="11" font-weight="600" fill="#e9d5ff">Per-Epoch Logging</text>
+  <text x="795" y="314" text-anchor="middle" font-size="10" fill="#c4b5fd">train/val loss + acc</text>
+  <text x="795" y="328" text-anchor="middle" font-size="9" fill="#a78bfa">history dict → training_curves.png</text>
+
+  <!-- 48 pytest badge -->
+  <rect x="888" y="278" width="180" height="68" rx="6" fill="#1a0845" stroke="#7c3aed" stroke-width="1.2"/>
+  <text x="978" y="299" text-anchor="middle" font-size="11" font-weight="600" fill="#e9d5ff">48 Pytest Tests</text>
+  <text x="978" y="314" text-anchor="middle" font-size="10" fill="#c4b5fd">Activations·Backprop·Metrics</text>
+  <text x="978" y="328" text-anchor="middle" font-size="10" fill="#c4b5fd">Leakage·Split·Promotion</text>
+
+  <!-- layer connector -->
+  <line x1="550" y1="364" x2="550" y2="380" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arr4)"/>
+
+  <!-- ═══════════════════════════════════════════════════════
+       LAYER 3 — MODEL OPS  (green/teal)
+  ════════════════════════════════════════════════════════ -->
+  <rect x="10" y="382" width="1080" height="148" rx="8" fill="#042b1e" opacity="0.96"/>
+  <text x="18" y="398" font-size="10" font-weight="700" fill="#6ee7b7" letter-spacing="1.5">MODEL OPS — CHAMPION vs CHALLENGER</text>
+  <text x="16" y="460" font-size="9" font-weight="600" fill="#10b981" transform="rotate(-90,16,460)" text-anchor="middle">MODEL OPS</text>
+
+  <!-- Champion box -->
+  <rect x="28" y="406" width="210" height="108" rx="6" fill="#064e35" stroke="#10b981" stroke-width="1.5"/>
+  <text x="133" y="428" text-anchor="middle" font-size="13" font-weight="700" fill="#6ee7b7">CHAMPION</text>
+  <text x="133" y="446" text-anchor="middle" font-size="11" fill="#34d399">ANN_Scratch_v1</text>
+  <text x="133" y="462" text-anchor="middle" font-size="11" fill="#34d399">test_acc = 0.9740</text>
+  <text x="133" y="478" text-anchor="middle" font-size="11" fill="#34d399">macro_f1 = 0.9739</text>
+  <text x="133" y="494" text-anchor="middle" font-size="10" fill="#6ee7b7">latest_model.json</text>
+
+  <!-- VS -->
+  <text x="295" y="468" text-anchor="middle" font-size="22" font-weight="700" fill="#6ee7b7">VS</text>
+
+  <!-- Challenger box -->
+  <rect x="318" y="406" width="210" height="108" rx="6" fill="#042b1e" stroke="#6ee7b7" stroke-width="1" stroke-dasharray="5,3"/>
+  <text x="423" y="428" text-anchor="middle" font-size="13" font-weight="700" fill="#a7f3d0">CHALLENGER</text>
+  <text x="423" y="448" text-anchor="middle" font-size="11" fill="#6ee7b7">New training run</text>
+  <text x="423" y="466" text-anchor="middle" font-size="11" fill="#6ee7b7">Must beat 3 gates</text>
+  <text x="423" y="484" text-anchor="middle" font-size="11" fill="#6ee7b7">registry-aware versioning</text>
+  <text x="423" y="500" text-anchor="middle" font-size="10" fill="#6ee7b7">challenger_log.json</text>
+
+  <!-- Gate 1 -->
+  <rect x="548" y="406" width="158" height="46" rx="6" fill="#065f46" stroke="#10b981" stroke-width="0.8"/>
+  <text x="627" y="424" text-anchor="middle" font-size="11" font-weight="600" fill="#a7f3d0">Gate 1: Accuracy</text>
+  <text x="627" y="442" text-anchor="middle" font-size="10" fill="#6ee7b7">improvement ≥ 0.002</text>
+
+  <!-- Gate 2 -->
+  <rect x="548" y="460" width="158" height="46" rx="6" fill="#065f46" stroke="#10b981" stroke-width="0.8"/>
+  <text x="627" y="478" text-anchor="middle" font-size="11" font-weight="600" fill="#a7f3d0">Gate 2: Macro F1</text>
+  <text x="627" y="496" text-anchor="middle" font-size="10" fill="#6ee7b7">≥ 0.90</text>
+
+  <!-- Gate 3 -->
+  <rect x="720" y="406" width="158" height="46" rx="6" fill="#065f46" stroke="#10b981" stroke-width="0.8"/>
+  <text x="799" y="424" text-anchor="middle" font-size="11" font-weight="600" fill="#a7f3d0">Gate 3: Gen Gap</text>
+  <text x="799" y="442" text-anchor="middle" font-size="10" fill="#6ee7b7">train-test acc ≤ 0.06</text>
+
+  <!-- PROMOTED badge -->
+  <rect x="720" y="460" width="158" height="46" rx="6" fill="#047857" stroke="#34d399" stroke-width="1.2"/>
+  <text x="799" y="478" text-anchor="middle" font-size="11" font-weight="700" fill="#ecfdf5">PROMOTED</text>
+  <text x="799" y="494" text-anchor="middle" font-size="10" fill="#a7f3d0">challenger_log.json</text>
+
+  <!-- Model Card info -->
+  <rect x="892" y="406" width="185" height="108" rx="6" fill="#064e35" stroke="#34d399" stroke-width="0.8"/>
+  <text x="984" y="428" text-anchor="middle" font-size="11" font-weight="700" fill="#6ee7b7">Model Card</text>
+  <text x="984" y="446" text-anchor="middle" font-size="10" fill="#a7f3d0">model_card_path stored</text>
+  <text x="984" y="462" text-anchor="middle" font-size="10" fill="#a7f3d0">in latest_model.json</text>
+  <text x="984" y="478" text-anchor="middle" font-size="10" fill="#a7f3d0">per-class precision/recall/F1</text>
+  <text x="984" y="494" text-anchor="middle" font-size="10" fill="#a7f3d0">business cost report</text>
+
+  <!-- layer connector -->
+  <line x1="550" y1="530" x2="550" y2="546" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arr4)"/>
+
+  <!-- ═══════════════════════════════════════════════════════
+       LAYER 4 — SERVING LAYER  (amber/orange)
+  ════════════════════════════════════════════════════════ -->
+  <rect x="10" y="548" width="1080" height="128" rx="8" fill="#2d1500" opacity="0.96"/>
+  <text x="18" y="564" font-size="10" font-weight="700" fill="#fbbf24" letter-spacing="1.5">SERVING LAYER</text>
+  <text x="16" y="616" font-size="9" font-weight="600" fill="#d97706" transform="rotate(-90,16,616)" text-anchor="middle">SERVING</text>
+
+  <!-- Model Loader -->
+  <rect x="28" y="572" width="175" height="88" rx="6" fill="#451a00" stroke="#f59e0b" stroke-width="0.8"/>
+  <text x="115" y="594" text-anchor="middle" font-size="11" font-weight="600" fill="#fde68a">Model Loader</text>
+  <text x="115" y="610" text-anchor="middle" font-size="10" fill="#fbbf24">load_latest_model()</text>
+  <text x="115" y="625" text-anchor="middle" font-size="10" fill="#fbbf24">ANN_Scratch_v*.npz</text>
+  <text x="115" y="640" text-anchor="middle" font-size="10" fill="#fbbf24">np.savez / np.load</text>
+
+  <line x1="203" y1="616" x2="216" y2="616" stroke="#f59e0b" stroke-width="1.2" marker-end="url(#arr3)"/>
+
+  <!-- Prediction Service -->
+  <rect x="218" y="572" width="175" height="88" rx="6" fill="#451a00" stroke="#f59e0b" stroke-width="0.8"/>
+  <text x="305" y="594" text-anchor="middle" font-size="11" font-weight="600" fill="#fde68a">Prediction Service</text>
+  <text x="305" y="610" text-anchor="middle" font-size="10" fill="#fbbf24">PixelScaler.transform()</text>
+  <text x="305" y="625" text-anchor="middle" font-size="10" fill="#fbbf24">predict_proba() + log</text>
+  <text x="305" y="640" text-anchor="middle" font-size="10" fill="#fbbf24">prediction_logs.csv</text>
+
+  <line x1="393" y1="616" x2="406" y2="616" stroke="#f59e0b" stroke-width="1.2" marker-end="url(#arr3)"/>
+
+  <!-- FastAPI -->
+  <rect x="408" y="572" width="175" height="88" rx="6" fill="#451a00" stroke="#f59e0b" stroke-width="0.8"/>
+  <text x="495" y="594" text-anchor="middle" font-size="11" font-weight="600" fill="#fde68a">FastAPI</text>
+  <text x="495" y="610" text-anchor="middle" font-size="10" fill="#fbbf24">POST /predict · /predict_batch</text>
+  <text x="495" y="625" text-anchor="middle" font-size="10" fill="#fbbf24">GET /health · /model_info</text>
+  <text x="495" y="640" text-anchor="middle" font-size="10" fill="#fbbf24">Render deployed</text>
+
+  <line x1="583" y1="616" x2="596" y2="616" stroke="#f59e0b" stroke-width="1.2" marker-end="url(#arr3)"/>
+
+  <!-- Digit Simulator -->
+  <rect x="598" y="572" width="175" height="88" rx="6" fill="#451a00" stroke="#f59e0b" stroke-width="0.8"/>
+  <text x="685" y="594" text-anchor="middle" font-size="11" font-weight="600" fill="#fde68a">Digit Simulator</text>
+  <text x="685" y="610" text-anchor="middle" font-size="10" fill="#fbbf24">3 scenarios</text>
+  <text x="685" y="625" text-anchor="middle" font-size="10" fill="#fbbf24">normal · noisy · drifted</text>
+  <text x="685" y="640" text-anchor="middle" font-size="10" fill="#fbbf24">300 samples × scenario</text>
+
+  <line x1="773" y1="616" x2="786" y2="616" stroke="#f59e0b" stroke-width="1.2" marker-end="url(#arr3)"/>
+
+  <!-- Response -->
+  <rect x="788" y="572" width="175" height="88" rx="6" fill="#451a00" stroke="#f59e0b" stroke-width="0.8"/>
+  <text x="875" y="594" text-anchor="middle" font-size="11" font-weight="600" fill="#fde68a">Response</text>
+  <text x="875" y="610" text-anchor="middle" font-size="10" fill="#fbbf24">predicted_digit</text>
+  <text x="875" y="625" text-anchor="middle" font-size="10" fill="#fbbf24">confidence</text>
+  <text x="875" y="640" text-anchor="middle" font-size="10" fill="#fbbf24">probabilities[0-9]</text>
+
+  <line x1="963" y1="616" x2="976" y2="616" stroke="#f59e0b" stroke-width="1.2" marker-end="url(#arr3)"/>
+
+  <!-- Latency -->
+  <rect x="978" y="572" width="100" height="88" rx="6" fill="#3d1500" stroke="#fbbf24" stroke-width="1"/>
+  <text x="1028" y="594" text-anchor="middle" font-size="11" font-weight="600" fill="#fde68a">Latency</text>
+  <text x="1028" y="612" text-anchor="middle" font-size="10" fill="#fbbf24">~0.7-2 ms</text>
+  <text x="1028" y="627" text-anchor="middle" font-size="10" fill="#fbbf24">pure NumPy</text>
+  <text x="1028" y="642" text-anchor="middle" font-size="10" fill="#fbbf24">forward pass</text>
+
+  <!-- layer connector -->
+  <line x1="550" y1="676" x2="550" y2="692" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arr4)"/>
+
+  <!-- ═══════════════════════════════════════════════════════
+       LAYER 5 — MONITORING  (red/pink)
+  ════════════════════════════════════════════════════════ -->
+  <rect x="10" y="694" width="1080" height="228" rx="8" fill="#2d0a0a" opacity="0.96"/>
+  <text x="18" y="710" font-size="10" font-weight="700" fill="#fca5a5" letter-spacing="1.5">MONITORING LAYER — STREAMLIT DASHBOARD</text>
+  <text x="16" y="810" font-size="9" font-weight="600" fill="#ef4444" transform="rotate(-90,16,810)" text-anchor="middle">MONITORING</text>
+
+  <!-- Real-Time Alerts -->
+  <rect x="28" y="718" width="180" height="188" rx="6" fill="#5a0a0a" stroke="#ef4444" stroke-width="0.8"/>
+  <text x="118" y="738" text-anchor="middle" font-size="11" font-weight="600" fill="#fecaca">Real-Time Alerts</text>
+  <text x="118" y="754" text-anchor="middle" font-size="10" fill="#fca5a5">confidence &lt; 0.55 alert</text>
+  <text x="118" y="769" text-anchor="middle" font-size="10" fill="#fca5a5">PSI moderate ≥ 0.10</text>
+  <text x="118" y="784" text-anchor="middle" font-size="10" fill="#fca5a5">PSI critical ≥ 0.20</text>
+  <text x="118" y="799" text-anchor="middle" font-size="10" fill="#fca5a5">retrain recommended</text>
+  <text x="118" y="814" text-anchor="middle" font-size="10" fill="#fca5a5">banner-style alert card</text>
+
+  <!-- Champion History -->
+  <rect x="222" y="718" width="180" height="188" rx="6" fill="#5a0a0a" stroke="#ef4444" stroke-width="0.8"/>
+  <text x="312" y="738" text-anchor="middle" font-size="11" font-weight="600" fill="#fecaca">Champion History</text>
+  <text x="312" y="754" text-anchor="middle" font-size="10" fill="#fca5a5">latest challenger name</text>
+  <text x="312" y="769" text-anchor="middle" font-size="10" fill="#fca5a5">3-gate pass/fail visual</text>
+  <text x="312" y="784" text-anchor="middle" font-size="10" fill="#fca5a5">full promotion table</text>
+  <text x="312" y="799" text-anchor="middle" font-size="9" fill="#f87171">accuracy · F1 · gap gates</text>
+
+  <!-- KPI Metrics -->
+  <rect x="416" y="718" width="180" height="188" rx="6" fill="#5a0a0a" stroke="#ef4444" stroke-width="0.8"/>
+  <text x="506" y="738" text-anchor="middle" font-size="11" font-weight="600" fill="#fecaca">KPI Metrics + Charts</text>
+  <text x="506" y="754" text-anchor="middle" font-size="10" fill="#fca5a5">total predictions live</text>
+  <text x="506" y="769" text-anchor="middle" font-size="10" fill="#fca5a5">avg confidence · latency</text>
+  <text x="506" y="784" text-anchor="middle" font-size="10" fill="#fca5a5">predicted digit distribution</text>
+  <text x="506" y="799" text-anchor="middle" font-size="10" fill="#fca5a5">confidence histogram</text>
+
+  <!-- PSI Drift -->
+  <rect x="610" y="718" width="180" height="188" rx="6" fill="#5a0a0a" stroke="#ef4444" stroke-width="0.8"/>
+  <text x="700" y="738" text-anchor="middle" font-size="11" font-weight="600" fill="#fecaca">PSI Drift Report</text>
+  <text x="700" y="754" text-anchor="middle" font-size="10" fill="#fca5a5">mean pixel intensity PSI</text>
+  <text x="700" y="769" text-anchor="middle" font-size="10" fill="#fca5a5">normal · noisy · drifted bars</text>
+  <text x="700" y="784" text-anchor="middle" font-size="10" fill="#fca5a5">🟢 stable / 🟡 moderate</text>
+  <text x="700" y="799" text-anchor="middle" font-size="9" fill="#f87171">🔴 critical · retrain</text>
+
+  <!-- Recent Predictions -->
+  <rect x="804" y="718" width="180" height="188" rx="6" fill="#5a0a0a" stroke="#ef4444" stroke-width="0.8"/>
+  <text x="894" y="738" text-anchor="middle" font-size="11" font-weight="600" fill="#fecaca">Recent Predictions</text>
+  <text x="894" y="754" text-anchor="middle" font-size="10" fill="#fca5a5">last 20 API calls</text>
+  <text x="894" y="769" text-anchor="middle" font-size="10" fill="#fca5a5">digit · confidence · latency</text>
+  <text x="894" y="784" text-anchor="middle" font-size="10" fill="#fca5a5">mean pixel intensity col</text>
+  <text x="894" y="799" text-anchor="middle" font-size="10" fill="#fca5a5">prediction_logs.csv</text>
+
+  <!-- Deployment boxes -->
+  <rect x="998" y="718" width="82" height="60" rx="6" fill="#450a0a" stroke="#dc2626" stroke-width="0.8"/>
+  <text x="1039" y="741" text-anchor="middle" font-size="11" font-weight="600" fill="#fecaca">Render</text>
+  <text x="1039" y="757" text-anchor="middle" font-size="10" fill="#fca5a5">FastAPI</text>
+  <text x="1039" y="770" text-anchor="middle" font-size="9" fill="#fca5a5">Auto-deploy</text>
+
+  <rect x="998" y="788" width="82" height="60" rx="6" fill="#450a0a" stroke="#dc2626" stroke-width="0.8"/>
+  <text x="1039" y="811" text-anchor="middle" font-size="11" font-weight="600" fill="#fecaca">Streamlit</text>
+  <text x="1039" y="827" text-anchor="middle" font-size="10" fill="#fca5a5">Dashboard</text>
+  <text x="1039" y="840" text-anchor="middle" font-size="9" fill="#fca5a5">Cloud deploy</text>
+
+  <!-- CI/CD badge -->
+  <rect x="998" y="858" width="82" height="44" rx="6" fill="#450a0a" stroke="#dc2626" stroke-width="0.8"/>
+  <text x="1039" y="877" text-anchor="middle" font-size="11" font-weight="600" fill="#fecaca">GitHub CI</text>
+  <text x="1039" y="893" text-anchor="middle" font-size="9" fill="#fca5a5">pytest on push</text>
+
+</svg>

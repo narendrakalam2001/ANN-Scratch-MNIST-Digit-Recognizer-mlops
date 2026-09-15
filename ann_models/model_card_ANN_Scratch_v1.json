@@ -1,0 +1,110 @@
+{
+  "model_details": {
+    "name": "ANN_Scratch_v1",
+    "version": "v1",
+    "type": "Fully-connected Artificial Neural Network (from scratch, NumPy only)",
+    "framework": "None \u2014 raw NumPy implementation of forward/backward propagation",
+    "date": "2026-08-20",
+    "architecture": {
+      "layer_dims": [
+        784,
+        256,
+        128,
+        10
+      ],
+      "activation": "relu",
+      "weight_init": "he",
+      "optimizer": "adam"
+    }
+  },
+  "intended_use": {
+    "primary_use": "Handwritten digit classification (0-9) on 28x28 grayscale images",
+    "primary_users": "ML engineers demonstrating fundamentals; digitization pipelines (forms, cheques, postal codes)",
+    "out_of_scope": [
+      "Non-digit handwritten character recognition",
+      "Natural scene text recognition",
+      "Production use without further validation on target deployment distribution"
+    ]
+  },
+  "training_data": {
+    "source": "Kaggle Digit Recognizer (MNIST CSV format)",
+    "n_train": 33601,
+    "n_val": 4199,
+    "n_test": 4200,
+    "input_dim": 784,
+    "num_classes": 10
+  },
+  "training_config": {
+    "epochs_run": 22,
+    "batch_size": 128,
+    "learning_rate_initial": 0.01,
+    "lr_decay": 0.97,
+    "l2_lambda": 0.0001,
+    "dropout_keep_prob": 0.8,
+    "early_stopping_patience": 5
+  },
+  "metrics": {
+    "train_accuracy": 0.9937,
+    "test_accuracy": 0.974,
+    "test_macro_f1": 0.9739,
+    "test_top2_accuracy": 0.99,
+    "mean_top1_confidence": 0.985,
+    "generalization_gap": 0.0196,
+    "per_class_precision": {
+      "0": 0.9855,
+      "1": 0.9789,
+      "2": 0.9536,
+      "3": 0.9765,
+      "4": 0.9594,
+      "5": 0.9637,
+      "6": 0.9951,
+      "7": 0.9885,
+      "8": 0.9702,
+      "9": 0.9682
+    },
+    "per_class_recall": {
+      "0": 0.9855,
+      "1": 0.9893,
+      "2": 0.9833,
+      "3": 0.9563,
+      "4": 0.9877,
+      "5": 0.9789,
+      "6": 0.9783,
+      "7": 0.9727,
+      "8": 0.9631,
+      "9": 0.9451
+    },
+    "per_class_f1": {
+      "0": 0.9855,
+      "1": 0.9841,
+      "2": 0.9682,
+      "3": 0.9663,
+      "4": 0.9734,
+      "5": 0.9713,
+      "6": 0.9866,
+      "7": 0.9805,
+      "8": 0.9666,
+      "9": 0.9565
+    },
+    "business_impact": {
+      "error_rate": 0.026,
+      "est_daily_errors": 2595.2,
+      "est_daily_cost": 2595.24,
+      "volume_per_day": 100000
+    }
+  },
+  "thresholds": {
+    "decision_rule": "argmax(softmax_output)"
+  },
+  "limitations": [
+    "Trained only on MNIST-style centered, normalized, black-background digit images.",
+    "No convolutional structure \u2014 spatial locality is not explicitly modeled, unlike a CNN.",
+    "Sensitive to input images that are not centered/cropped like MNIST (rotation, translation, scale)."
+  ],
+  "ethical_considerations": [
+    "Misclassifications in downstream systems (e.g. cheque/form processing) should route to human review rather than auto-reject/auto-approve on low-confidence predictions."
+  ],
+  "quantitative_analysis": {
+    "notes": "See docs/plots/confusion_matrix.png and docs/plots/per_class_f1.png for per-digit breakdown."
+  }
+}

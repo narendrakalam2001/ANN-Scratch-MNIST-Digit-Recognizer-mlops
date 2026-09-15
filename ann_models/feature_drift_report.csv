@@ -1,0 +1,4 @@
+timestamp,scenario,psi_mean_intensity,mean_confidence,n_samples
+2026-08-23 15:47:25,normal,0.0331,0.9969,300
+2026-08-23 15:57:44,noisy,2.9998,0.9076,300
+2026-08-23 16:08:02,drifted,12.4327,0.5217,300

@@ -1,0 +1,19 @@
+ANN from Scratch — MNIST Digit Recognizer
+Kaggle Digit Recognizer Dataset
+======================================================================
+
+Original rows: 42,000
+Original columns: 785
+Sample rows: 10,000
+Pixel features: 784
+Image dimensions: 28 x 28
+Number of classes: 10
+Pixel value range: 0-255
+
+Labels:
+0, 1, 2, 3, 4, 5, 6, 7, 8, 9
+
+Recommended preprocessing:
+Normalize pixel values from 0-255 to 0-1.
+Reshape 784 pixel values into 28x28 when
+visualizing individual images.
