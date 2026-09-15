@@ -1,6 +1,6 @@
 # 🔢 ANN From Scratch — MNIST Digit Recognizer
 
-[![CI](https://github.com/narendrakalam2001/ANN-Scratch-MNIST-Digit-Recognizer/actions/workflows/ci.yml/badge.svg)](https://github.com/narendrakalam2001/ANN-Scratch-MNIST-Digit-Recognizer/actions)
+[![CI](https://github.com/narendrakalam2001/ANN-Scratch-MNIST-Digit-Recognizer-mlops/actions/workflows/ci.yml/badge.svg)](https://github.com/narendrakalam2001/ANN-Scratch-MNIST-Digit-Recognizer-mlops/actions)
 [![Python 3.10](https://img.shields.io/badge/python-3.10-blue.svg)](https://python.org)
 [![NumPy Only](https://img.shields.io/badge/framework-NumPy%20only-orange.svg)](https://numpy.org)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.104+-green.svg)](https://fastapi.tiangolo.com)
@@ -62,12 +62,12 @@ Full per-digit precision/recall/F1 breakdown: see `ann_models/model_card_ANN_Scr
 
 | Service | URL |
 |---|---|
-| 🚀 **FastAPI (Swagger UI)** | `http://localhost:8000/docs` (local) |
-| 📊 **Monitoring Dashboard** | `http://localhost:8501` (local) |
-| 📓 **EDA Notebook** | [notebooks/mnist_ann_eda.ipynb](notebooks/mnist_ann_eda.ipynb) |
+| 🚀 **FastAPI (Swagger UI)** | [https://ann-scratch-mnist-digit-recognizer-mlops.onrender.com/docs](https://ann-scratch-mnist-digit-recognizer-mlops.onrender.com/docs) |
+| 📊 **Monitoring Dashboard** | [https://ann-scratch-mnist-digit-recognizer-mlops.streamlit.app](https://ann-scratch-mnist-digit-recognizer-mlops.streamlit.app) |
+| 📓 **EDA Notebook** | [notebooks/mnist_ann_from_scratch_eda.ipynb](notebooks/mnist_ann_from_scratch_eda.ipynb) |
 
-> Not yet deployed to Render/Streamlit Cloud — `render.yaml` is included and ready; update this section
-> with live URLs once deployed.
+> ⚠️ Render free tier: first request may take 30–60 seconds (cold start).
+
 
 ---
 
@@ -81,9 +81,9 @@ Full per-digit precision/recall/F1 breakdown: see `ann_models/model_card_ANN_Scr
 ╠══════════════════════════════════════════════════════════════════════════════════╣
 ║                                                                                  ║
 ║  ┌─────────────────────────────── DATA LAYER ──────────────────────────────┐     ║
-║  │  Kaggle CSV → Validate + Load → Leakage Check → Stratified Split →       │     ║
-║  │  Preprocess (PixelScaler [0,1] + one-hot)                                │     ║
-║  │  42,000 rows · 784 pixels · 80/10/10% split, fit on train only           │     ║
+║  │  Kaggle CSV → Validate + Load → Leakage Check → Stratified Split →      │     ║
+║  │  Preprocess (PixelScaler [0,1] + one-hot)                               │     ║
+║  │  42,000 rows · 784 pixels · 80/10/10% split, fit on train only          │     ║
 ║  └───────────────────────────────────┬─────────────────────────────────────┘     ║
 ║                                      ▼                                           ║
 ║  ┌─────────────────────── TRAINING PIPELINE (NumPy) ───────────────────────┐     ║
@@ -99,9 +99,9 @@ Full per-digit precision/recall/F1 breakdown: see `ann_models/model_card_ANN_Scr
 ║                                      ▼                                           ║
 ║  ┌──────────────────────── CHAMPION-CHALLENGER ────────────────────────────┐     ║
 ║  │                                                                         │     ║
-║  │  Gate 1: accuracy improvement  ≥ 0.002  →  ✅ PASS / ❌ FAIL            │     ║
-║  │  Gate 2: macro F1              ≥ 0.90   →  ✅ PASS / ❌ FAIL            │     ║
-║  │  Gate 3: train-test acc gap    ≤ 0.06   →  ✅ PASS / ❌ FAIL            │     ║
+║  │  Gate 1: accuracy improvement  ≥ 0.002  →  ✅ PASS / ❌ FAIL           │     ║
+║  │  Gate 2: macro F1              ≥ 0.90   →  ✅ PASS / ❌ FAIL           │     ║
+║  │  Gate 3: train-test acc gap    ≤ 0.06   →  ✅ PASS / ❌ FAIL           │     ║
 ║  │                                                                         │     ║
 ║  │  ALL gates pass → PROMOTED (latest_model.json updated)                  │     ║
 ║  │  ANY gate fails → REJECTED (champion retained, result logged)           │     ║
@@ -235,13 +235,15 @@ ANN-Scratch-MNIST-Digit-Recognizer/
 │   └── run_simulation.py                  # python scripts/run_simulation.py
 │
 ├── notebooks/
-│   └── mnist_ann_eda.ipynb                # 20-step professional EDA notebook
+│   ├── mnist_ann_from_scratch_eda.ipynb   # 21-step professional EDA notebook
+│   └── mnist_ann_from_scratch_eda.html               
 │
 ├── extract_sample_image.py                # Pulls a real digit row from the CSV → PNG for dashboard upload
 │
 ├── data/
-│   ├── train.csv                          # Kaggle Digit Recognizer training data (download separately)
-│   └── sample_digit.png                   # Sample real digit extracted for dashboard demo/testing
+│   ├── sample_dataset_info.txt                
+│   ├── sample_digit.png                   # Sample real digit extracted for dashboard demo/testing
+│   └── sample_mnist_train.csv             # sample for quick local testing
 │
 ├── ann_models/                            # Model artifacts — registry-based, versioned
 │   ├── latest_model.json                  # Champion model registry
@@ -281,6 +283,7 @@ ANN-Scratch-MNIST-Digit-Recognizer/
 ├── .github/workflows/ci.yml              # GitHub Actions — pytest on every push
 ├── .gitignore
 ├── .dockerignore
+├── LICENSE                                # MIT License
 ├── README.md                              # This file
 ├── render.yaml                            # Render.com deployment config
 ├── requirements.txt                       # Core dependencies
@@ -307,7 +310,9 @@ Download [Kaggle Digit Recognizer](https://www.kaggle.com/competitions/digit-rec
 
 ```
 data/
-└── train.csv        # 42,000 rows · label + pixel0..pixel783
+  ├── sample_dataset_info.txt                
+  ├── sample_digit.png                   # Sample real digit extracted for dashboard demo/testing
+  └── sample_mnist_train.csv             # sample for quick local testing
 ```
 
 > Kaggle's dataset is pure tabular pixel data — there are no image files. Use
@@ -572,14 +577,29 @@ risk projects:
 [![Email](https://img.shields.io/badge/Email-Contact-red?logo=gmail)](mailto:kalamnarendra2001@gmail.com)
 
 ### Portfolio Projects
-
-| # | Project | Domain | Champion Model | Key Metric |
+| # | Project | Domain | Champion Model / Core Tech | Key Metric |
 |---|---|---|---|---|
 | 1 | Credit Card Fraud Detection | BFSI / Fintech | ExtraTrees | F1 = 0.8962 · 284K transactions |
 | 2 | Credit Risk Prediction | BFSI / Lending | LightGBM | F1 = 0.9741 · ROC-AUC = 0.9991 |
-| 3 | Customer Churn Prediction | Telecom / BFSI | — | BFSI domain |
-| 4 | Store Sales Forecasting | Retail / Supply Chain | — | Kaggle competition |
-| 5 | **ANN From Scratch — MNIST Digit Recognizer** | **Deep Learning Fundamentals** | **From-scratch ANN** | **Test Acc = 0.9740 · Macro F1 = 0.9739** |
+| 3 | Customer Churn Prediction | Telecom / BFSI | CatBoost | F1 = 0.634 · Recall = 0.7312 |
+| 4 | House Price Prediction | Real Estate | CatBoost | RMSE = $20,128 · R² = 0.9053 |
+| 5 | Store Sales Forecasting | Retail / Supply Chain | LightGBM (Ensemble) | RMSLE = 0.3739 · R² = 0.9761 |
+| 6 | Energy Demand Forecasting | Energy / Utilities | ElasticNet | RMSE = 712.04 MW · R² = 0.9759 |
+| 7 | Stock Price & Risk Forecasting | Fintech / Capital Markets | Ridge | DirAcc = 53.44% · Sharpe = 0.80 |
+| 8 | Resume Screener AI | HR Tech | LightGBM | F1 = 0.7608 · Top-3 = 0.9416 |
+| 9 | ABSA Sentiment Analysis | E-Commerce / Banking | RidgeClassifier | Macro-F1 = 0.6212 · ROC-AUC = 0.823 |
+| 10 | Fake News Detector | Media Tech / Gov Tech | XGBoost | F1 = 0.9993 · ROC = 1.0000 |
+| 11 | BC5CDR Clinical NER | Biomedical NLP | BioBERT | F1 = 0.8847 · Chemical F1 = 0.9239 |
+| 12 | News Topic Modeling | Media Analytics | LDA (Gensim) | Cv = 0.6225 · Diversity = 0.92 |
+| 13 | Chest X-Ray Diagnosis | Healthcare AI | DenseNet121 | Mean AUC = 0.7864 · 14 classes |
+| 14 | Real-Time Object Detection | Computer Vision / Retail-Security | YOLOv8s | mAP50-95 = 0.5341 · 32 FPS |
+| 15 | Face Emotion Recognition | EdTech / Retail CX | CNN-from-scratch | Macro-F1 = 0.5950 · 7 classes |
+| 16 | Customer Segmentation Engine | E-Commerce / BFSI | DBSCAN (Unsupervised) | Silhouette = 0.4056 |
+| 17 | Market Basket Analysis (Instacart) | Retail / Quick-Commerce | Apriori | 68,820 rules · mean lift = 15.66 |
+| 18 | E-Commerce / OTT Recommender | E-Commerce / Streaming | Hybrid (SVD + Content) | NDCG@10 = 0.0407 · 4 candidates |
+| 19 | Hospital Readmission Prediction | Healthcare / Hospital Ops | ExtraTrees | F1 = 0.2702 · ROC-AUC = 0.6513 |
+| 20 | HR Policy Intelligence Chatbot | HR Tech / Enterprise GenAI | Gemini 3.6 Flash + RAG | 30/30 tests · guardrail threshold=0.35 |
+| 21 | **ANN From Scratch — MNIST Digit Recognizer** | **Deep Learning Fundamentals** | **From-scratch ANN** | **Test Acc = 0.9740 · Macro F1 = 0.9739** |
 
 ---
 
