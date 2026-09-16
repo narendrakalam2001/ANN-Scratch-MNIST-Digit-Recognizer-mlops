@@ -599,7 +599,8 @@ risk projects:
 | 18 | E-Commerce / OTT Recommender | E-Commerce / Streaming | Hybrid (SVD + Content) | NDCG@10 = 0.0407 · 4 candidates |
 | 19 | Hospital Readmission Prediction | Healthcare / Hospital Ops | ExtraTrees | F1 = 0.2702 · ROC-AUC = 0.6513 |
 | 20 | HR Policy Intelligence Chatbot | HR Tech / Enterprise GenAI | Gemini 3.6 Flash + RAG | 30/30 tests · guardrail threshold=0.35 |
-| 21 | **ANN From Scratch — MNIST Digit Recognizer** | **Deep Learning Fundamentals** | **From-scratch ANN** | **Test Acc = 0.9740 · Macro F1 = 0.9739** |
+| 21 | Employee Attrition Prediction | HR Tech / People Analytics | NeuralNet (MLP) | F1 = 0.3902 · ROC-AUC = 0.6698 |
+| 22 | **ANN From Scratch — MNIST Digit Recognizer** | **Deep Learning Fundamentals** | **From-scratch ANN** | **Test Acc = 0.9740 · Macro F1 = 0.9739** |
 
 ---
 
